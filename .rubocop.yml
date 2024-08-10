@@ -1,0 +1,21 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  DisplayStyleGuide: true
+  Exclude:
+    - bin/*
+    - vendor/**/*
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+
+RSpec/ExampleLength:
+  Enabled: false
