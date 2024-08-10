@@ -10,9 +10,10 @@ module TwsApi
   # using the Java TwsApi API.
   class Client
     include Java::ComIbClient::EWrapper
+    include ClientMixins::ContractDetails
     include ClientMixins::ManagedAccount
 
-    attr_reader :logger, :connected_accounts, :client, :client_signal
+    attr_reader :logger, :connected_accounts, :client, :client_signal, :request_data
 
     # Initializes a new instance of the Client class.
     #
@@ -23,6 +24,7 @@ module TwsApi
       @client_signal = Java::ComIbClient::EJavaSignal.new
       @client = Java::ComIbClient::EClientSocket.new(self, client_signal)
       @current_request_id = 0
+      @request_data = RequestData.new
 
       @logger = logger
     end
