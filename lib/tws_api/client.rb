@@ -13,6 +13,7 @@ module TwsApi
     include ClientMixins::ContractDetails
     include ClientMixins::ManagedAccount
     include ClientMixins::OptionChain
+    include ClientMixins::Positions
 
     attr_reader :logger, :connected_accounts, :client, :client_signal, :request_data
 
