@@ -12,6 +12,7 @@ module TwsApi
     include Java::ComIbClient::EWrapper
     include ClientMixins::ContractDetails
     include ClientMixins::ManagedAccount
+    include ClientMixins::OptionChain
 
     attr_reader :logger, :connected_accounts, :client, :client_signal, :request_data
 
