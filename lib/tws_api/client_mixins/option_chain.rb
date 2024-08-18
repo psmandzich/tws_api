@@ -13,7 +13,7 @@ module TwsApi
       # @return [Hash, nil] The options chain data for the specified contract, or nil if there is a failure in data
       #                     reception or processing.
       def request_options_chain(contract)
-        req_id = next_valid_id
+        req_id = next_request_id
         @request_data.init_request(req_id, contract)
         client.req_sec_def_opt_params(req_id, contract.symbol, '', contract.sec_type.to_s, contract.conid)
 

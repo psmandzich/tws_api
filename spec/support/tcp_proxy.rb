@@ -71,17 +71,18 @@ class TCPProxy
   def reply_record(source)
     puts "open: #{source} -> record"
     Thread.new do
-      recorded_lines = @record_file.readlines.map(&:chomp).reverse
+      line_regexp = /(Client->TWS:|TWS->Client:)([\s\S]*?)(?=(\n(Client->TWS:|TWS->Client:|\z)))/
+      recorded_lines = @record_file.read.force_encoding('ASCII-8BIT').scan(line_regexp).reverse
       cmp = recorded_lines.pop
-      while (msg = source.readpartial(4096))
+      while (msg = source.readpartial(8192))
         if cmp.nil? # end of recording
           close
-        elsif cmp[12..] == msg.chomp
+        elsif cmp[1] == msg
           loop do
             next_line = recorded_lines.pop
-            if next_line && next_line[0..11] == 'TWS->Client:'
+            if next_line && next_line[0] == 'TWS->Client:'
               puts "write to socket\n"
-              source.write(next_line[12..])
+              source.write(next_line[1])
             else
               puts "next client\n"
               cmp = next_line
@@ -118,9 +119,11 @@ class TCPProxy
   end
 
   def fixture_file
-    File.new(record_file_with_path, 'r') unless create_recording?
+    return File.new(record_file_with_path, 'r') unless create_recording?
 
-    unless File.exist?(record_file_with_path)
+    if File.exist?(record_file_with_path)
+      FileUtils.rm(record_file_with_path)
+    else
       path, _file_name = File.split(record_file_with_path)
       FileUtils.mkdir_p(path)
     end

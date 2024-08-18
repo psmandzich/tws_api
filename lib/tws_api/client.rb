@@ -25,8 +25,8 @@ module TwsApi
     def initialize(logger:)
       @client_signal = Java::ComIbClient::EJavaSignal.new
       @client = Java::ComIbClient::EClientSocket.new(self, client_signal)
-      @current_request_id = 0
       @request_data = RequestData.new
+      @next_valid_request_id_queue = Queue.new
 
       @logger = logger
     end
@@ -54,6 +54,10 @@ module TwsApi
       end
     end
 
+    def next_request_id
+      @next_valid_request_id_queue.pop
+    end
+
     # Disconnects the client from the Interactive Brokers API server.
     def disconnect
       client.e_disconnect
@@ -79,12 +83,8 @@ module TwsApi
       end
     end
 
-    def next_valid_id(req_id = nil)
-      if req_id
-        @current_request_id = req_id
-      else
-        @current_request_id += 1
-      end
+    def next_valid_id(req_id)
+      @next_valid_request_id_queue.push req_id
     end
   end
 end

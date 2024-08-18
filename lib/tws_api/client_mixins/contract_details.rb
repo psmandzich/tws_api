@@ -8,7 +8,7 @@ module TwsApi
       # @param contract [Contract] The contract for which details are needed.
       # @return [ContractDetails] The first set of contract details received or nil if no data is received.
       def request_contract_details(contract)
-        req_id = next_valid_id
+        req_id = next_request_id
         request_data.init_request(req_id)
         client.req_contract_details(req_id, contract)
 

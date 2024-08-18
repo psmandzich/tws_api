@@ -24,8 +24,8 @@ RSpec.describe TwsApi::Client, '#request_filtered_positions', tcp_proxy: { recor
       ),
       TwsApi::Models::Position.new(
         contract: TwsApi::Models::Contract.build(conid: 10_749_447),
-        amount: Java::ComIbClient::Decimal.get(-300),
-        avg_cost: 39.77
+        amount: Java::ComIbClient::Decimal.get(-299.0),
+        avg_cost: 39.70070235
       ),
       TwsApi::Models::Position.new(
         contract: TwsApi::Models::Contract.build(conid: 14_094),
@@ -49,8 +49,8 @@ RSpec.describe TwsApi::Client, '#request_filtered_positions', tcp_proxy: { recor
       ),
       TwsApi::Models::Position.new(
         contract: TwsApi::Models::Contract.build(conid: 10_749_447),
-        amount: Java::ComIbClient::Decimal.get(-300),
-        avg_cost: 39.77
+        amount: Java::ComIbClient::Decimal.get(-299.0),
+        avg_cost: 39.70070235
       ),
       TwsApi::Models::Position.new(
         contract: TwsApi::Models::Contract.build(conid: 14_094),

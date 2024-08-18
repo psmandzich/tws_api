@@ -9,6 +9,12 @@ module TwsApi
     # functionalities of the native Java API.
     class Contract < Java::ComIbClient::Contract
       attr_accessor :option_chain
+
+      def self.build(conid:)
+        instance = new
+        instance.conid(conid)
+        instance
+      end
     end
   end
 end

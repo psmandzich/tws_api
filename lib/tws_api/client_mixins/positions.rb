@@ -18,9 +18,8 @@ module TwsApi
       # Requests position subscription for account and/or model Initially all positions are returned, and then updates
       # are returned for any position changes in real time.
       def request_filtered_positions(account: '', model_code: '')
-        req_id = next_valid_id
+        req_id = next_request_id
         @request_data.init_request(req_id, { account:, model_code: })
-
         client.req_positions_multi(req_id, account, model_code)
 
         return unless @request_data.wait_for_data(req_id)
